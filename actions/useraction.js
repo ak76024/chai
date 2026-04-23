@@ -12,7 +12,7 @@ export const initiate = async (amount, to_user, paymentform) => {
     if (!user) {
         return { error: "Recipient user not found" };
     }
-    var instance = new Razorpay({ key_id: user.razorpayId, key_secret: user.razorpaySecret });
+    var instance = new Razorpay({ key_id: user.razorpayId || process.env.NEXT_PUBLIC_RZP_KEY, key_secret: user.razorpaySecret || process.env.RZP_TEST_SECRET });
 
     let options = {
         amount: Number(amount),

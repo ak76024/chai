@@ -23,7 +23,7 @@ export const POST = async (req) => {
 
     //  fetch user secret 
     let user = await User.findOne({ username: payment.to_user });
-    let secret = user.razorpaySecret;
+    let secret = user.razorpaySecret || process.env.RZP_TEST_SECRET;
 
     // verify payment
     let isValid = validatePaymentVerification(
