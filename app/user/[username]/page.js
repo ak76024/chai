@@ -1,7 +1,7 @@
-"use client";
 import PaymentPage from "@/components/PaymentPage";
-const Username = () => {
 
+const Username = () => {
+  
   return (
     <>
       <PaymentPage />

@@ -13,7 +13,7 @@ const Profile = () => {
   const [loader, setloader] = useState(false);
 
   const input = "w-[80%] px-4 py-2 border rounded";
-  const inputDiv = "w-[40%] flex-col flex justify-center gap-3";
+  const inputDiv = "md:w-[40%] w-[90%] flex-col flex justify-center gap-3";
 
   useEffect(() => {
     if (!session) {

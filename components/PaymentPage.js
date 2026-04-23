@@ -5,24 +5,28 @@ import { useParams } from "next/navigation";
 import { initiate, fetchuser, fetchpayments } from '@/actions/useraction';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const PaymentPage = () => {
     const searchParams = useSearchParams();
     const [form, setform] = useState({ name: "", amount: "", msg: "" });
     const [currentUser, setcurrentUser] = useState({ username: "" });
     const [payment, setpayment] = useState({});
+    const [url, seturl] = useState("");
     const params = useParams();
+    const router = useRouter();
 
-    const input = "px-4 py-2 border rounded w-1/2";
+    const input = "px-4 py-2 border rounded md:w-1/2 w-[80%]";
     const btn = "px-4 py-2 rounded";
-
-    let u;
 
     useEffect(() => {
         getData(params.username);
         if(searchParams.get("payment") === "true") {
             toast.success("Payment successful!");
+            router.push(`/user/${params.username}`);
         }
+        const url = new URL(window.location.href);
+        seturl(url);
     }, []);
 
     const quickSupport = (amount) => {
@@ -57,11 +61,11 @@ const PaymentPage = () => {
             "key": currentUser.razorpayId,
             "amount": amount,
             "currency": "INR",
-            "name": "Help the creator to buy a chai",
+            "name": currentUser.username,
             "description": "Test Transaction",
             "image": "https://example.com/your_logo",
             "order_id": orderId,
-            "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
+            "callback_url": `${url.origin}/api/razorpay`,
             "prefill": {
                 "name": "Gaurav Kumar",
                 "email": "gaurav.kumar@example.com",
@@ -86,8 +90,8 @@ const PaymentPage = () => {
                 <p>{currentUser?.bio || "No bio available."}</p>
                 <p>500 Followers, 58 Posts</p>
                 {currentUser?.username !== "User Not Found" && (
-                    <div className="flex gap-3 w-[80%]">
-                        <div className="w-1/2 flex gap-2 p-4 bg-[#2807743d] flex-col items-center">
+                    <div className="flex flex-col md:flex-row gap-3 w-[80%]">
+                        <div className="md:w-1/2 w-full flex gap-2 p-4 bg-[#2807743d] flex-col items-center">
                             <h1 className="font-bold text-2xl">Supporters</h1>
                             <ul className="flex flex-col items-center gap-1 h-[300px] w-full overflow-y-scroll px-4">
                                 {
@@ -107,9 +111,9 @@ const PaymentPage = () => {
                                 }
                             </ul>
                         </div>
-                        <div className="w-1/2 bg-[#24046d3d] p-4 flex gap-2 flex-col items-center">
+                        <div className="md:w-1/2 w-full bg-[#24046d3d] p-4 flex gap-3 flex-col items-center">
                             <h1 className="font-bold text-2xl">Support {currentUser?.username || "User"}</h1>
-                            <form className="flex flex-col gap-2 w-full items-center">
+                            <form className="flex flex-col gap-3 w-full items-center">
                                 <input value={form.name} onChange={(e) => setform({ ...form, name: e.target.value })} type="text" placeholder="Enter your name" className={input} />
                                 <input value={form.amount} onChange={(e) => setform({ ...form, amount: e.target.value })} type="number" placeholder="Enter amount in Rs" className={input} />
                                 <input value={form.msg} onChange={(e) => setform({ ...form, msg: e.target.value })} type="text" placeholder="Enter a message (optional)" className={input} />

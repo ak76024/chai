@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 const Login = () => {
     const { data: session,status } = useSession();
     const router = useRouter();
-
     useEffect(() => {
         if (session) {
             router.push("/profile");

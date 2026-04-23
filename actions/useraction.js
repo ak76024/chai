@@ -7,7 +7,12 @@ import User from "@/models/User";
 
 export const initiate = async (amount, to_user, paymentform) => {
     await connectDB();
-    var instance = new Razorpay({ key_id: process.env.NEXT_PUBLIC_RZP_KEY, key_secret: process.env.RZP_TEST_SECRET });
+
+    let user = await User.findOne({ username: to_user });
+    if (!user) {
+        return { error: "Recipient user not found" };
+    }
+    var instance = new Razorpay({ key_id: user.razorpayId, key_secret: user.razorpaySecret });
 
     let options = {
         amount: Number(amount),
@@ -58,6 +63,12 @@ export const updateProfile = async (form, username) => {
         if (existingUser) {
             return { error: "Username already taken" };
         }
+
+        // also update username in payments collection
+        await Payment.updateMany({ to_user: username }, { to_user: nData.username });
+
+        // and delete false payment entries of the new username if exists
+        await Payment.deleteMany({ to_user: nData.username, done: false });
     }
     await User.updateOne({email:nData.email}, nData);
     return { success: true };
