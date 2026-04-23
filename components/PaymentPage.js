@@ -12,7 +12,6 @@ const PaymentPage = () => {
     const [form, setform] = useState({ name: "", amount: "", msg: "" });
     const [currentUser, setcurrentUser] = useState({ username: "" });
     const [payment, setpayment] = useState({});
-    const [url, seturl] = useState("");
     const params = useParams();
     const router = useRouter();
 
@@ -25,8 +24,6 @@ const PaymentPage = () => {
             toast.success("Payment successful!");
             router.push(`/user/${params.username}`);
         }
-        const url = new URL(window.location.href);
-        seturl(url);
     }, []);
 
     const quickSupport = (amount) => {
@@ -65,7 +62,7 @@ const PaymentPage = () => {
             "description": "Test Transaction",
             "image": "https://example.com/your_logo",
             "order_id": orderId,
-            "callback_url": `${url.origin}/api/razorpay`,
+            "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
             "prefill": {
                 "name": "Gaurav Kumar",
                 "email": "gaurav.kumar@example.com",

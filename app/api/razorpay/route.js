@@ -8,9 +8,6 @@ import User from "@/models/User";
 export const POST = async (req) => {
     await connectDB();
 
-    const url = new URL(req.url);
-    const baseUrl = `${url.protocol}//${url.host}`;
-
     let body = await req.formData();
     body = Object.fromEntries(body);
 
@@ -46,7 +43,7 @@ export const POST = async (req) => {
         );
 
         return NextResponse.redirect(
-            `${baseUrl}/user/${updatedPayment.to_user}?payment=true`
+            `${process.env.NEXT_PUBLIC_URL}/user/${updatedPayment.to_user}?payment=true`
         );
     } else {
         return NextResponse.json(
