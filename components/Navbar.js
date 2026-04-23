@@ -12,7 +12,7 @@ const Navbar = () => {
         <ul className='flex gap-5 text-[18px]'>
           <li><Link href='/'>Home</Link></li>
           <li><Link href='/about'>About</Link></li>
-          <li><Link href='/project'>Project</Link></li>
+          <li><Link href='/sUser'>Search User</Link></li>
           {session ? <li><Link href='/profile'>Profile</Link></li> : <li><Link href='/login'>Login</Link></li>}
           {session ? <li><Link href={`/user/${session.user.username}`}>Your Page</Link></li> : ""}
         </ul>

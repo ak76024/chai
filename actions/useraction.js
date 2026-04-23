@@ -73,3 +73,10 @@ export const updateProfile = async (form, username) => {
     await User.updateOne({email:nData.email}, nData);
     return { success: true };
 }
+
+export const fetchusersuggestions = async (uname) => {
+    await connectDB();
+
+    let users = await User.find({ username: { $regex: uname, $options: "i" } }).limit(5).lean();
+    return users.map(u => ({ username: u.username, img: u.image }));
+}
