@@ -83,6 +83,7 @@ const PaymentPage = () => {
             <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
             <div className="flex items-center flex-col gap-2">
                 <img className="rounded-full border-2 shadow-lg shadow-blue-500" width={250} src={currentUser.image || "/user2.gif"} alt="User Avatar" />
+                <h1 className="text-2xl font-bold">{currentUser?.name || "User"}</h1>
                 <h1 className="text-2xl font-bold">{currentUser?.username || "User"}</h1>
                 <p>{currentUser?.bio || "No bio available."}</p>
                 <p>500 Followers, 58 Posts</p>
@@ -109,7 +110,7 @@ const PaymentPage = () => {
                             </ul>
                         </div>
                         <div className="md:w-1/2 w-full bg-[#24046d3d] p-4 flex gap-3 flex-col items-center">
-                            <h1 className="font-bold text-2xl">Support {currentUser?.username || "User"}</h1>
+                            <h1 className="font-bold text-2xl">Support {currentUser?.name || "User"}</h1>
                             <form className="flex flex-col gap-3 w-full items-center">
                                 <input value={form.name} onChange={(e) => setform({ ...form, name: e.target.value })} type="text" placeholder="Enter your name" className={input} />
                                 <input value={form.amount} onChange={(e) => setform({ ...form, amount: e.target.value })} type="number" placeholder="Enter amount in Rs" className={input} />

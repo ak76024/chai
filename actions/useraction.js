@@ -33,6 +33,7 @@ export const fetchuser = async (username) => {
     }
     let user = u.toObject({flattenObjectIds: true});
     delete user._id;
+    console.log(user);
     return user;
 }
 
@@ -79,4 +80,22 @@ export const fetchusersuggestions = async (uname) => {
 
     let users = await User.find({ username: { $regex: uname, $options: "i" } }).limit(5).lean();
     return users.map(u => ({ username: u.username, img: u.image }));
+}
+
+export const fetchAdminPayment = async (email) => {
+    await connectDB();
+
+    let user = await User.findOne({ email }).lean();
+    if (!user) {
+        return { error: "User not found" };
+    }
+
+    let paytment=0;
+    let total=0;
+    let payments = await Payment.find({ to_user: user.username, done: true }).lean();
+    payments.forEach(p => {
+        paytment++;
+        total+=p.amount;
+    });
+    return {paytment, total };
 }

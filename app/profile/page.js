@@ -59,7 +59,7 @@ const Profile = () => {
     <form onSubmit={updateUser}>
       <div className='flex flex-col w-full items-center p-10 gap-3'>
         <img src={form?.image || "/user2.gif"} alt="Profile Picture" className='rounded-full' width={100} />
-        <h1 className='font-bold text-2xl'>Welcome, {session.user.username}!</h1>
+        <h1 className='font-bold text-2xl'>Welcome, {session.user.name}!</h1>
         <div className='flex flex-col items-center justify-center gap-2 w-[80%]'>
           <div className={inputDiv}>
             <p className='font-bold'>Name: </p>
