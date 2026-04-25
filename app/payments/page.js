@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { fetchpayments } from '@/actions/useraction';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
-    const { data: session } = useSession();
+    const { data: session,status} = useSession();
+    const router = useRouter();
     const [payment, setpayment] = useState([]);
     const fetch = async () => {
         let payments = await fetchpayments(session?.user?.username);
@@ -15,6 +17,12 @@ const page = () => {
             fetch();
         }
     }, [session?.user?.username]);
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/login");
+        }
+    }, [status, router]);
     return (
         <div>
             <table className="min-w-full border-collapse border text-center border-gray-900">
